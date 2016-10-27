@@ -1,0 +1,24 @@
+{
+  "name": "BreakTrack",
+  "version": "0.0.0",
+  "description": "A time management and task tracking application.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Matt Barker @RibbonLance",
+  "license": "MIT",
+  "repository": "https://github.com/RibbonLance/BreakTrack",
+  "dependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "electron": "^1.4.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.4.1"
+  }
+}
