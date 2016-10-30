@@ -1,25 +1,9 @@
-let nextTodoId = 0;
-export const addTodo = (text) => {
-  const returnObject = {
-    type: 'ADD_TODO',
-    id: nextTodoId += 1,
-    text,
-  };
-  return returnObject;
-};
+import { TEST } from '../constants';
 
-export const setVisibilityFilter = (filter) => {
-  const returnObject = {
-    type: 'SET_VISIBILITY_FILTER',
-    filter,
+export function test(n) {// eslint-disable-line
+  console.log(`Action fired.${n}`);
+  return {
+    type: TEST,
+    amount: n,
   };
-  return returnObject;
-};
-
-export const toggleTodo = (id) => {
-  const returnObject = {
-    type: 'TOGGLE_TODO',
-    id,
-  };
-  return returnObject;
-};
+}

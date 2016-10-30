@@ -7,13 +7,6 @@
     "start": "ENV=development electron .",
     "dev": "concurrently -k 'babel-node server.js' 'npm start'"
   },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-0",
-      "react"
-    ]
-  },
   "author": "Matt Barker @RibbonLance",
   "license": "MIT",
   "repository": "https://github.com/RibbonLance/BreakTrack",
@@ -34,6 +27,9 @@
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.6",
     "redux": "^3.6.0",
+    "redux-devtools": "^3.3.1",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.1.1",
     "style-loader": "^0.13.1"
   },
   "devDependencies": {

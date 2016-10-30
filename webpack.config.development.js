@@ -11,7 +11,7 @@ const config = {
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loaders: ['babel-loader'],
+      loaders: ['babel'],
       exclude: /node_modules/,
     }, {
       test: /\.css$/,
