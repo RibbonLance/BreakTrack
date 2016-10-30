@@ -1,10 +1,21 @@
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <meta charset="UTF-8"/>
+    <title>BreakTrack</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <div id="root">
+      We are using node <script>document.write(process.versions.node)</script>,
+      Chromium <script>document.write(process.versions.chrome)</script>,
+      and Electron <script>document.write(process.versions.electron)</script>.
+    </div>
+    <script>
+      (function() {
+        const script = document.createElement('script'); // eslint-disable-line
+        script.src = process.env.ENV === 'development' ? 'http://localhost:9000/dist/bundle.js' : './dist/bundle.js';
+        document.write(script.outerHTML);
+      }());
+    </script>
   </body>
 
   <script>
