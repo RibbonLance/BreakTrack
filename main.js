@@ -8,11 +8,21 @@ const { app } = electron;
 const { BrowserWindow } = electron;
 
 let win; // Main Window
+const winSettings = {
+  width: 1366,
+  height: 768,
+  resizable: false,
+  title: 'BreakTrack',
+  frame: false,
+};
 
 function createWindow() {
-  win = new BrowserWindow({ width: 800, height: 600 });
+  win = new BrowserWindow(winSettings);
   win.loadURL(`file://${__dirname}/index.html`);
-  win.webContents.openDevTools();
+  if (process.env.ENV === 'development') {
+    console.log('Development Mode!');
+    win.webContents.openDevTools();
+  }
 
   win.on('closed', () => { win = null; });
 }

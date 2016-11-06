@@ -1,0 +1,11 @@
+{
+  "verbose": true,
+  "ignore": [ "node_modules",
+              "build",
+              "*.md",
+              "*.log",
+              "*.lock",
+              "*.gitignore",
+              "*.eslintrc"],
+  "ext": "js json html jsx css"
+}
