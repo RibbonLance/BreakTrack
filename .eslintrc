@@ -1,30 +1,40 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
-  "environment": "es6",
   "env": {
     "browser": true,
-    "node": true,
-    "mocha": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "forOf": true,
-      "jsx": true,
-      "es6": true,
-      "experimentalObjectRestSpread" : true
-      },
+    "mocha": true,
+    "node": true
   },
   "rules": {
-    "no-console": 0,
-    "no-underscore-dangle": 0
+    "arrow-parens": ["off"],
+    "consistent-return": "off",
+    "comma-dangle": "off",
+    "generator-star-spacing": "off",
+    "import/no-unresolved": ["error", { "ignore": ["electron"] }],
+    "import/no-extraneous-dependencies": "off",
+    "no-use-before-define": "off",
+    "promise/param-names": 2,
+    "promise/always-return": 2,
+    "promise/catch-or-return": 2,
+    "promise/no-native": 0,
+    "react/jsx-no-bind": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+    "react/prefer-stateless-function": "off",
+    "flowtype-errors/show-errors": 2,
+    "no-console": 0
   },
   "plugins": [
+    "flowtype-errors",
+    "import",
+    "promise",
     "react"
   ],
-  "globals": {
-    "__DEVSERVER__": true,
-    "__DEVCLIENT__": true
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.eslint.js"
+      }
+    }
   }
 }
