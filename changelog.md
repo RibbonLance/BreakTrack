@@ -1,5 +1,14 @@
 ## BreakTrack Changelog
 
+#### Version: 0.0.3 | 7/11/16
+- Added CSS Reset
+- Material UI Implemented
+- Window Drag Works
+- Title now BreakTrack
+- Sidebar Working
+- Started Styling
+- Settings Abstracted into separate page
+
 #### Version: 0.0.2	| 7/11/16
 - Using [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate)
 - Configured ^ to work with old BreakTrack Code

@@ -1,7 +1,7 @@
 {
   "name": "breaktrack",
   "productName": "BreakTrack",
-  "version": "0.0.8",
+  "version": "0.0.3",
   "description": "A time management and task tracking application.",
   "main": "./main.js",
   "author": {

@@ -45,12 +45,12 @@ app.on('ready', async () => {
     height: 768,
     resizable: false,
     frame: false,
-    title: 'BreakTrack'
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
   mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.title = 'BreakTrack';
     mainWindow.show();
     mainWindow.focus();
   });

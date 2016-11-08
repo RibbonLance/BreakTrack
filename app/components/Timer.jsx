@@ -1,9 +1,12 @@
 // Absolute Dependencies
 import React from 'react';
 import { connect } from 'react-redux';
+import FlatButton from 'material-ui/FlatButton';
+import IconTimer from 'material-ui/svg-icons/image/timer';
 
 // Relative Dependencies
-import { pomoComplete } from '../actions/index';
+import { timerComplete } from '../actions/index';
+import parseMillisecondsIntoReadableTime from '../api/TimeUtility';
 
 // Variable Declarations
 
@@ -17,13 +20,6 @@ class Timer extends React.Component {
       completed: 0,
       readable: '',
       breakTime: 0,
-      settings: {
-        shown: false,
-        timerLength: 1500000, // 25 minutes
-        breakLength: 300000, // 5 minutes
-        pomoPerBreak: 4, // Default Pomodoro
-        extendedBreakLength: 1800000, // 30 minutes
-      },
     };
   }
 
@@ -31,7 +27,7 @@ class Timer extends React.Component {
     console.log(`Length: ${this.state.length}\nPaused: ${this.state.paused}`);
     this.timer = setInterval(() => {
       const elapsed = Math.round(this.state.length - this.state.elapsed);
-      this.setState({ readable: this.parseMillisecondsIntoReadableTime(elapsed) });
+      this.setState({ readable: parseMillisecondsIntoReadableTime(elapsed) });
       if (this.state.paused !== true) {
         this.setState({ elapsed: this.state.elapsed + 100 });
       }
@@ -69,57 +65,13 @@ class Timer extends React.Component {
     console.log('Reset Clicked');
   }
 
-  onClickShowSettings(e) {
-    e.preventDefault();
-    this.setState({ settings: { ...this.state.settings, shown: true } });
-    console.log('Showing Settings');
-    console.log(this.state.settings);
-  }
-
-  onClickHideSettings(e) {
-    e.preventDefault();
-    this.setState({ settings: { ...this.state.settings, shown: false } });
-    console.log('Hiding Settings');
-    console.log(this.state.settings);
-  }
-
-  // eslint-disable-next-line
-  parseMillisecondsIntoReadableTime(milliseconds) {
-    // Get hours from milliseconds
-    const hours = milliseconds / (1000 * 60 * 60);
-    const absoluteHours = Math.floor(hours);
-    const minutes = (hours - absoluteHours) * 60;
-    const absoluteMinutes = Math.floor(minutes);
-    const seconds = (minutes - absoluteMinutes) * 60;
-    const absoluteSeconds = Math.floor(seconds);
-
-    const h = absoluteHours > 9
-      ? absoluteHours
-      : `0${absoluteHours}`;
-    const m = absoluteMinutes > 9
-      ? absoluteMinutes
-      : `0${absoluteMinutes}`;
-    const s = absoluteSeconds > 9
-        ? absoluteSeconds
-        : `0${absoluteSeconds}`;
-
-    let readable;
-    if (absoluteHours > 0) {
-      readable = `${h}:${m}:${s}`; // TODO xD
-    }
-
-    readable = `${m}:${s}`;
-
-    return readable;
-  }
-
   complete(completed = true) {
     const completeAmount = completed ? 1 : 0;
-    this.props.pomoComplete();
+    this.props.timerComplete();
     this.setState({ paused: true,
       elapsed: 0,
       length: this.state.settings.timerLength,
-      completed: this.props.pomoCompleted + completeAmount });
+      completed: this.props.timerCompleted + completeAmount });
   }
 
   updateSetting(e, setting) {
@@ -134,96 +86,56 @@ class Timer extends React.Component {
   }
 
   renderControls() {
-    if (this.state.paused) {
-      return (<button onClick={e => this.onClickStart(e)}>Start</button>);
-    }
-    return (<button onClick={e => this.onClickPause(e)}>Pause</button>);
-  }
+    let callback;
+    let label;
 
-  renderSettings() {
-    if (!this.state.settings.shown) {
-      return (
-        <div className="Settings">
-          <button onClick={e => this.onClickShowSettings(e)}>Show Settings</button>
-        </div>
-      );
+    if (this.state.paused) {
+      callback = this.onClickStart;
+      label = 'Start';
+    } else {
+      callback = this.onClickPause;
+      label = 'Pause';
     }
     return (
-      <div className="Settings">
-        <button onClick={e => this.onClickHideSettings(e)}>Hide Settings</button>
-        <p>Settings</p>
-        <div className="input-field"> {/* Timer Length */}
-          <input
-            ref={(timerLength) => { this.timerLength = timerLength; }}
-            type="text"
-            className="validate"
-            style={{ display: 'block' }}
-            onChange={e => this.updateSetting(e, 'timerLength')}
-            defaultValue={this.state.settings.timerLength}
-          />
-          <label htmlFor="timerLength">Timer Length(
-            {this.parseMillisecondsIntoReadableTime(this.state.settings.timerLength)}
-          )</label>
-        </div>
-        <br />
-        <div className="input-field"> {/* Break Length */}
-          <input
-            ref={(breakLength) => { this.breakLength = breakLength; }}
-            type="text"
-            className="validate"
-            style={{ display: 'block' }}
-            onChange={e => this.updateSetting(e, 'breakLength')}
-            defaultValue={this.state.settings.breakLength}
-          />
-          <label htmlFor="timerLength">Break Length(
-            {this.parseMillisecondsIntoReadableTime(this.state.settings.breakLength)}
-          )</label>
-        </div>
-        <br />
-        <div className="input-field"> {/* Extended Break Length */}
-          <input
-            ref={(extendedBreakLength) => { this.extendedBreakLength = extendedBreakLength; }}
-            type="text"
-            className="validate"
-            style={{ display: 'block' }}
-            onChange={e => this.updateSetting(e, 'extendedBreakLength')}
-            defaultValue={this.state.settings.extendedBreakLength}
-          />
-          <label htmlFor="timerLength">Extended Break Length(
-            {this.parseMillisecondsIntoReadableTime(this.state.settings.extendedBreakLength)}
-          )</label>
-        </div>
-        <br />
-        <div className="input-field"> {/* Pomodoros Per Extended Break */}
-          <input
-            ref={(pomoPerBreak) => { this.pomoPerBreak = pomoPerBreak; }}
-            type="text"
-            className="validate"
-            style={{ display: 'block' }}
-            onChange={e => this.updateSetting(e, 'pomoPerBreak')}
-            defaultValue={this.state.settings.pomoPerBreak}
-          />
-          <label htmlFor="pomoPerBreak">Timers Per Extended Break</label>
-        </div>
-      </div>
+      <FlatButton
+        label={label}
+        style={this.props.styles.timerButton}
+        backgroundColor={this.props.styles.buttonConfig.backgroundColor}
+        hoverColor={this.props.styles.buttonConfig.hoverColor}
+        onClick={e => callback(e)}
+      />
     );
   }
 
   render() {
     return (
-      <div className="Timer">
-        <span className="Complete">Complete: {this.state.completed}</span>
-        <div className="TimeValue">
+      <div>
+        <span>Complete: {this.state.completed}</span>
+        <div>
           <p>Time Remaining:
             <span>{ this.state.readable}</span>
           </p>
         </div>
+        <br />
         <div className="Controls">
           {this.renderControls()}
-          <button onClick={e => this.complete(e)}>Complete</button>
-          <button onClick={e => this.onClickReset(e)}>Reset</button>
+          <FlatButton
+            label="Complete"
+            // icon={icon}
+            style={this.props.styles.timerButton}
+            backgroundColor={this.props.styles.buttonConfig.backgroundColor}
+            hoverColor={this.props.styles.buttonConfig.hoverColor}
+            onClick={e => this.complete(e)}
+          />
+          <FlatButton
+            label="Reset"
+            // icon={icon}
+            style={this.props.styles.timerButton}
+            backgroundColor={this.props.styles.buttonConfig.backgroundColor}
+            hoverColor={this.props.styles.buttonConfig.hoverColor}
+            onClick={e => this.onClickReset(e)}
+          />
         </div>
-        {this.renderSettings()}
       </div>
     );
   }
@@ -232,24 +144,30 @@ class Timer extends React.Component {
 Timer.propTypes = {
   length: React.PropTypes.number,
   start: React.PropTypes.bool,
-  pomoComplete: React.PropTypes.func,
-  pomoCompleted: React.PropTypes.number,
+  timerComplete: React.PropTypes.func,
+  timerCompleted: React.PropTypes.number,
+  styles: React.PropTypes.object,
 };
 
 Timer.defaultProps = {
   length: 1500000,
   start: false,
+  styles: {
+    timerButton: {
+      width: `${100}%`
+    }
+  }
 };
 
 function mapStateToProps(state) {
   return {
-    pomoCompleted: state.BreakTrack.pomoComplete,
+    timerCompleted: state.BreakTrack.timerComplete,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    pomoComplete: () => dispatch(pomoComplete()),
+    timerComplete: () => dispatch(timerComplete()),
   };
 }
 
